@@ -21,50 +21,72 @@ import java.util.ArrayList;
  * @author DaniV
  */
 public class ControllerFormatoLista {
-    
-    public void insert(FormatoLista formatoLista) throws SQLException{
-        
+
+    public void insert(FormatoLista formatoLista) throws SQLException {
+
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
         String insertFormato = "INSERT INTO formatoLista(idMateria, idDocente, idGrupo,  "
-                                + "semanas, nomenclatura) VALUES('"+ formatoLista.getMateria().getIdMateria() + "', '" + 
-                                formatoLista.getDocente().getIdDocente() + "', '" + formatoLista.getGrupo().getIdGrupo() +
-                                "', "  + formatoLista.getSemanas() +
-                                ", " + formatoLista.getNomenclatura() +")";
+                + "semanas, nomenclatura) VALUES('" + formatoLista.getMateria().getIdMateria() + "', '"
+                + formatoLista.getDocente().getIdDocente() + "', '" + formatoLista.getGrupo().getIdGrupo()
+                + "', " + formatoLista.getSemanas()
+                + ", " + formatoLista.getNomenclatura() + ")";
         PreparedStatement pstmt = conn.prepareStatement(insertFormato);
         pstmt.execute();
     }
-    
-    
-    
-    public List<FormatoLista> getAll(int idDocente, int idGrupo, int idMateria) throws SQLException{
-        FormatoLista formatoLista = new FormatoLista();
+
+    public List<FormatoLista> getAllFiltro(int idDocente, int idGrupo, int idMateria) throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String selectFormato = "Select * from formatoLista where idDocente = " + idDocente + " OR idGrupo = "
+                + idGrupo + " OR idMateria = " + idMateria;
+
+        PreparedStatement pstmt = conn.prepareStatement(selectFormato);
+        ResultSet rs = pstmt.executeQuery();
+
         List<FormatoLista> listaFormatos = new ArrayList<>();
+        while (rs.next()) {
+            listaFormatos.add(fill(rs));
+        }
+
+        return listaFormatos;
+    }
+
+    public List<FormatoLista> getAll() throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String selectFormato = "Select * from formatoLista";
+
+        PreparedStatement pstmt = conn.prepareStatement(selectFormato);
+        ResultSet rs = pstmt.executeQuery();
+
+        List<FormatoLista> listaFormatos = new ArrayList<>();
+        while (rs.next()) {
+            listaFormatos.add(fill(rs));
+        }
+
+        return listaFormatos;
+    }
+
+    private FormatoLista fill(ResultSet rs) throws Exception {
+        FormatoLista formatoLista = new FormatoLista();
         Grupo grupo = new Grupo();
         Materia materia = new Materia();
         Docente docente = new Docente();
-        ConexionMySQL connMySQL = new ConexionMySQL();
-        Connection conn = connMySQL.open();
-        String selectFormato = "Select * from formatoLista where idDocente = " + idDocente + " OR idGrupo = "
-                + idGrupo + " OR idMateria = "+ idMateria;
-        PreparedStatement pstmt = conn.prepareStatement(selectFormato);
-        ResultSet rs = pstmt.executeQuery();
-        while(rs.next()){
-            grupo.setIdGrupo(rs.getInt("idGrupo"));
-            materia.setIdMateria(rs.getInt("idMateria"));
-            docente.setIdDocente(rs.getInt("idDocente"));
-            formatoLista.setSemanas(rs.getInt("semanas"));
-            formatoLista.setIdFormatoLista(rs.getInt("idFormatoLista"));
-            formatoLista.setNomenclatura(rs.getInt("nomenclatura"));
-            formatoLista.setDocente(docente);
-            formatoLista.setMateria(materia);
-            formatoLista.setGrupo(grupo);
-            listaFormatos.add(formatoLista);
-            
-        }
-        return listaFormatos;
+
+        grupo.setIdGrupo(rs.getInt("idGrupo"));
+        materia.setIdMateria(rs.getInt("idMateria"));
+        docente.setIdDocente(rs.getInt("idDocente"));
+        formatoLista.setSemanas(rs.getInt("semanas"));
+        formatoLista.setIdFormatoLista(rs.getInt("idFormatoLista"));
+        formatoLista.setNomenclatura(rs.getInt("nomenclatura"));
+        formatoLista.setDocente(docente);
+        formatoLista.setMateria(materia);
+        formatoLista.setGrupo(grupo);
+
+        return formatoLista;
     }
-    
-    
-   
+
 }

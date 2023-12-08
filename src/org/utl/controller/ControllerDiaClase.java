@@ -34,7 +34,24 @@ public class ControllerDiaClase {
         pstmt.execute();
     }
 
-    public List<DiaClase> getAll(int idFormatoLista) throws SQLException, Exception {
+    public List<DiaClase> getAll() throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String queryListaAsistencia = "Select * from diaClase";
+
+        PreparedStatement pstmt = conn.prepareStatement(queryListaAsistencia);
+        ResultSet rs = pstmt.executeQuery();
+
+        List<DiaClase> diasClase = new ArrayList<>();
+        while (rs.next()) {
+            diasClase.add(fill(rs));
+        }
+
+        return diasClase;
+    }
+
+    public List<DiaClase> getDiaPorFormatoLista(int idFormatoLista) throws SQLException, Exception {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
 
@@ -44,10 +61,10 @@ public class ControllerDiaClase {
         ResultSet rs = pstmt.executeQuery();
 
         List<DiaClase> diasClase = new ArrayList<>();
-         while (rs.next()) {
+        while (rs.next()) {
             diasClase.add(fill(rs));
         }
-         
+
         return diasClase;
     }
 
@@ -56,7 +73,7 @@ public class ControllerDiaClase {
         FormatoLista formatoLista = new FormatoLista();
 
         formatoLista.setIdFormatoLista(rs.getInt("idFormatoLista"));
-        
+
         diaClase.setDia(rs.getString("dia"));
         diaClase.setFormatoLista(formatoLista);
         diaClase.setIdDiaClase(rs.getInt("idDiaClase"));

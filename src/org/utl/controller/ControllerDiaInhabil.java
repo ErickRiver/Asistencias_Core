@@ -20,33 +20,59 @@ import org.utl.model.FormatoLista;
  * @author DaniV
  */
 public class ControllerDiaInhabil {
-        public void insert(DiaInhabil diaInhabil) throws SQLException{
-        
+
+    public void insert(DiaInhabil diaInhabil) throws SQLException {
+
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
-        String insertFormato = "INSERT INTO diaInhabil(idDiaInhabil, fecha, idFormatoLista) VALUES("+ 
-                diaInhabil.getIdDiaInhabil() + ", '" + diaInhabil.getFecha() + "', " + 
-                diaInhabil.getFormatoLista().getIdFormatoLista() +")";
+        String insertFormato = "INSERT INTO diaInhabil(idDiaInhabil, fecha, idFormatoLista) VALUES("
+                + diaInhabil.getIdDiaInhabil() + ", '" + diaInhabil.getFecha() + "', "
+                + diaInhabil.getFormatoLista().getIdFormatoLista() + ")";
         PreparedStatement pstmt = conn.prepareStatement(insertFormato);
         pstmt.execute();
     }
-    
-    public List<DiaInhabil> getAll(int idFormatoLista) throws SQLException{
-        DiaInhabil diaInhabil = new DiaInhabil();
-        List<DiaInhabil> listaDias = new ArrayList<>();
-        FormatoLista formatoLista = new FormatoLista();
+
+    public List<DiaInhabil> getAll() throws SQLException, Exception, Exception, Exception, Exception, Exception {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
-        String queryListaAsistencia = "Select * from diaInhabil where idFormatoLista = " + idFormatoLista;
+
+        String queryListaAsistencia = "Select * from diaInhabil";
+
         PreparedStatement pstmt = conn.prepareStatement(queryListaAsistencia);
         ResultSet rs = pstmt.executeQuery();
-        while(rs.next()){
-            formatoLista.setIdFormatoLista(rs.getInt("idFormatoLista"));
-            diaInhabil.setFecha(rs.getString("fecha"));
-            diaInhabil.setFormatoLista(formatoLista);
-            diaInhabil.setIdDiaInhabil(rs.getInt("idDiaInhabil"));
-            listaDias.add(diaInhabil);
+
+        List<DiaInhabil> listaDias = new ArrayList<>();
+        while (rs.next()) {
+            listaDias.add(fill(rs));
         }
         return listaDias;
+    }
+
+    public List<DiaInhabil> getDiasPorFormatoLista(int idFormatoLista) throws SQLException, Exception, Exception, Exception, Exception, Exception, Exception, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String queryListaAsistencia = "Select * from diaInhabil where idFormatoLista = " + idFormatoLista;
+
+        PreparedStatement pstmt = conn.prepareStatement(queryListaAsistencia);
+        ResultSet rs = pstmt.executeQuery();
+
+        List<DiaInhabil> listaDias = new ArrayList<>();
+        while (rs.next()) {
+            listaDias.add(fill(rs));
+        }
+        return listaDias;
+    }
+
+    private DiaInhabil fill(ResultSet rs) throws Exception {
+        DiaInhabil diaInhabil = new DiaInhabil();
+        FormatoLista formatoLista = new FormatoLista();
+
+        diaInhabil.setIdDiaInhabil(rs.getInt("idDiaInhabil"));
+        diaInhabil.setFecha(rs.getString("fecha"));
+        formatoLista.setIdFormatoLista(rs.getInt("idFormatoLista"));
+        diaInhabil.setFormatoLista(formatoLista);
+
+        return diaInhabil;
     }
 }

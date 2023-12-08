@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.utl.bd.ConexionMySQL;
 import org.utl.model.DiaClase;
+import org.utl.model.Directivo;
 import org.utl.model.FormatoLista;
 import org.utl.model.Horario;
 
@@ -20,33 +21,59 @@ import org.utl.model.Horario;
  * @author DaniV
  */
 public class ControllerHorario {
-    public void insert(Horario horario) throws SQLException{
-        
+
+    public void insert(Horario horario) throws SQLException {
+
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
-        String insertFormato = "INSERT INTO horario(idHorario, hora, idDiaClase) VALUES("+ 
-                horario.getIdHorario() + ", '" + horario.getHorario() + "', " + 
-                horario.getDiaClase().getIdDiaClase() +")";
+        String insertFormato = "INSERT INTO horario(idHorario, hora, idDiaClase) VALUES("
+                + horario.getIdHorario() + ", '" + horario.getHorario() + "', "
+                + horario.getDiaClase().getIdDiaClase() + ")";
         PreparedStatement pstmt = conn.prepareStatement(insertFormato);
         pstmt.execute();
     }
-    
-    public List<Horario> getAll(int idDiaClase) throws SQLException{
-        Horario horario = new Horario();
-        DiaClase diaClase = new DiaClase();
-        List<Horario> listaHorario = new ArrayList<>();
+
+    public List<Horario> getAll() throws SQLException, Exception {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
-        String queryListaAsistencia = "Select * from horario where idHorario = " + idDiaClase;
+
+        String queryListaAsistencia = "Select * from horario";
+
         PreparedStatement pstmt = conn.prepareStatement(queryListaAsistencia);
         ResultSet rs = pstmt.executeQuery();
-        while(rs.next()){
-            horario.setIdHorario(rs.getInt("idHorario"));
-            horario.setHorario(rs.getString("horario"));
-            diaClase.setIdDiaClase(rs.getInt("idDiaClase"));
-            horario.setDiaClase(diaClase);
-            listaHorario.add(horario);
+
+        List<Horario> listaHorario = new ArrayList<>();
+        while (rs.next()) {
+            listaHorario.add(fill(rs));
         }
         return listaHorario;
+    }
+    
+    public List<Horario> getAllFiltro(int idDiaClase) throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String queryListaAsistencia = "Select * from horario where idDiaClase = " + idDiaClase;
+
+        PreparedStatement pstmt = conn.prepareStatement(queryListaAsistencia);
+        ResultSet rs = pstmt.executeQuery();
+
+        List<Horario> listaHorario = new ArrayList<>();
+        while (rs.next()) {
+            listaHorario.add(fill(rs));
+        }
+        return listaHorario;
+    }
+
+    private Horario fill(ResultSet rs) throws Exception {
+        Horario horario = new Horario();
+        DiaClase diaClase = new DiaClase();
+
+        horario.setIdHorario(rs.getInt("idHorario"));
+        horario.setHorario(rs.getString("horario"));
+        diaClase.setIdDiaClase(rs.getInt("idDiaClase"));
+        horario.setDiaClase(diaClase);
+        
+        return horario;
     }
 }

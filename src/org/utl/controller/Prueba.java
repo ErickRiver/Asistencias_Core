@@ -27,7 +27,12 @@ import org.utl.model.Usuario;
 public class Prueba {
 
     public static void main(String[] args) throws Exception {
-
+            
+        ControllerHorario ctrHorario = new ControllerHorario();
+        System.out.println(ctrHorario.getAll());
+//        ControllerDiaClase ctrDiasClase = new ControllerDiaClase();
+//        System.out.println(ctrDiasClase.getDiaPorFormatoLista(1));
+        
         //ControllerGrupo ctrGrupo = new ControllerGrupo();
         //System.out.println(ctrGrupo.getAll());
         //Usuario usuario = new Usuario(0, "erickXDDD", "54321");
@@ -49,8 +54,8 @@ public class Prueba {
 //        
 //        ControllerDiaClase ctrDiaClase = new ControllerDiaClase();
 //        ctrDiaClase.getAll(0);
-        ControllerDirectivo ctrDirectivo = new ControllerDirectivo();
-        System.out.println(ctrDirectivo.getAll());
+//        ControllerDirectivo ctrDirectivo = new ControllerDirectivo();
+//        System.out.println(ctrDirectivo.getAll());
         
 //        ControllerDocente ctrDocente = new ControllerDocente();
 //        System.out.println(ctrDocente.getAll());
