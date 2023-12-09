@@ -23,14 +23,15 @@ import java.util.ArrayList;
 public class ControllerFormatoLista {
 
     public void insert(FormatoLista formatoLista) throws SQLException {
-
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
+        
         String insertFormato = "INSERT INTO formatoLista(idMateria, idDocente, idGrupo,  "
                 + "semanas, nomenclatura) VALUES('" + formatoLista.getMateria().getIdMateria() + "', '"
                 + formatoLista.getDocente().getIdDocente() + "', '" + formatoLista.getGrupo().getIdGrupo()
                 + "', " + formatoLista.getSemanas()
                 + ", " + formatoLista.getNomenclatura() + ")";
+        
         PreparedStatement pstmt = conn.prepareStatement(insertFormato);
         pstmt.execute();
     }
@@ -68,6 +69,24 @@ public class ControllerFormatoLista {
         }
 
         return listaFormatos;
+    }
+
+    public FormatoLista getLastId() throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String selectFormato = "SELECT MAX(idFormatoLista) AS idFormatoLista FROM formatoLista";
+
+        PreparedStatement pstmt = conn.prepareStatement(selectFormato);
+        ResultSet rs = pstmt.executeQuery();
+        
+        FormatoLista formatoLista = new FormatoLista();
+        
+        while (rs.next()) {
+            formatoLista.setIdFormatoLista(rs.getInt("idFormatoLista")); 
+        }
+
+        return formatoLista;
     }
 
     private FormatoLista fill(ResultSet rs) throws Exception {

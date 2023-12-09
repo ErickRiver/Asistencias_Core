@@ -27,17 +27,58 @@ import org.utl.model.Usuario;
 public class Prueba {
 
     public static void main(String[] args) throws Exception {
-        
-        
-        ControllerListaAsistencia ctrLista = new ControllerListaAsistencia();
-        System.out.println(ctrLista.getVistaListaPorSemana(1));
+//        Grupo grupo = new Grupo();
+//        Materia materia = new Materia();
+//        Docente docente = new Docente();
+//        
+//        grupo.setIdGrupo(1);
+//        materia.setIdMateria(1);
+//        docente.setIdDocente(1);
+//        
+//        FormatoLista formatoLista = new FormatoLista();
+//        formatoLista.setDocente(docente);
+//        formatoLista.setMateria(materia);
+//        formatoLista.setGrupo(grupo);
+//        formatoLista.setSemanas(10);
+//        formatoLista.setNomenclatura(1);
+//        
+        ControllerFormatoLista ctrFormatoLista = new ControllerFormatoLista();
+        System.out.println(ctrFormatoLista.getLastId());
+
+        FormatoLista formatoLista = new FormatoLista();
+        formatoLista.setIdFormatoLista(1);
+
+        ControllerDiaClase ctrDiaClase = new ControllerDiaClase();
+
+        List<DiaClase> diasParaInsertar = new ArrayList<>();
+
+        DiaClase lunes = new DiaClase();
+        lunes.setDia("Lunes");
+        lunes.setFormatoLista(formatoLista);
+        diasParaInsertar.add(lunes);
+
+        DiaClase martes = new DiaClase();
+        martes.setDia("Martes");
+        martes.setFormatoLista(formatoLista);
+        diasParaInsertar.add(martes);
+
+        DiaClase miercoles = new DiaClase();
+        miercoles.setDia("Miércoles");
+        miercoles.setFormatoLista(formatoLista);
+        diasParaInsertar.add(miercoles);
+
+//        for (DiaClase dia : diasParaInsertar) {
+//            ctrDiaClase.insert(dia);
+//        }
+
+//        ControllerListaAsistencia ctrLista = new ControllerListaAsistencia();
+//        System.out.println(ctrLista.getVistaListaPorSemana(1));
 //        System.out.println(ctrLista.getAll());
 //        System.out.println(ctrLista.getListaPorSemana(1));
 //        ControllerHorario ctrHorario = new ControllerHorario();
 //        System.out.println(ctrHorario.getAll());
 //        ControllerDiaClase ctrDiasClase = new ControllerDiaClase();
 //        System.out.println(ctrDiasClase.getDiaPorFormatoLista(1));
-
 //        ControllerGrupo ctrGrupo = new ControllerGrupo();
 //        System.out.println(ctrGrupo.getAll());
         //Usuario usuario = new Usuario(0, "erickXDDD", "54321");
