@@ -27,8 +27,38 @@ import org.utl.model.Usuario;
 public class Prueba {
 
     public static void main(String[] args) throws Exception {
-        ControllerDiaClase cda = new ControllerDiaClase();
-        System.out.println(cda.getLastId());
+        Usuario usuario = new Usuario();
+        usuario.setUsername("usuario23");
+        usuario.setContrasenia("1234");
+
+        ControllerLogin ctrLogin = new ControllerLogin();
+//        System.out.println(ctrLogin.login(usuario));
+//        Grupo grupo = new Grupo();
+//        grupo.setIdGrupo(1);
+//        Usuario usuario = new Usuario();
+//        usuario.setIdUsuario(1);
+//        
+//        Alumno alumno = new Alumno();
+//        alumno.setNombre("Erick");
+//        alumno.setApellido("Rivera");
+//        alumno.setFechaNacimiento("2003-08-01");
+//        
+//        alumno.setGrupo(grupo);
+//        alumno.setUsuario(usuario);
+//        
+//        ControllerAlumno ctrAlumno = new ControllerAlumno();
+//        ctrAlumno.insert(alumno);
+//        DiaClase diaClase = new DiaClase();
+//        Horario horario = new Horario();
+//        diaClase.setIdDiaClase(1);
+//        diaClase.setDia("Martes");
+//
+//        FormatoLista fl = Formatonew FormatoLista();
+//        fl.setIdFormatoLista(2);
+//        diaClase.setFormatoLista(fl);
+//        
+//        ControllerDiaClase cda = new ControllerDiaClase();
+//        System.out.println(cda.insertAndGetID(diaClase));
 //        Horario horario = new Horario();
 //        DiaClase diaClase = new DiaClase();
 //        diaClase.setIdDiaClase(1);
@@ -39,23 +69,25 @@ public class Prueba {
 //        
 //        ControllerHorario ctrHorario = new ControllerHorario();
 //        ctrHorario.insert(horario);
-//        Grupo grupo = new Grupo();
-//        Materia materia = new Materia();
-//        Docente docente = new Docente();
+
+        Grupo grupo = new Grupo();
+        Materia materia = new Materia();
+        Docente docente = new Docente();
+
+        grupo.setIdGrupo(1);
+        materia.setIdMateria(1);
+        docente.setIdDocente(1);
+
+        FormatoLista formatoLista = new FormatoLista();
+        formatoLista.setDocente(docente);
+        formatoLista.setMateria(materia);
+        formatoLista.setGrupo(grupo);
+        formatoLista.setSemanas(10);
+        formatoLista.setPeriodo("enero-mayo");
+        formatoLista.setNomenclatura(1);
 //        
-//        grupo.setIdGrupo(1);
-//        materia.setIdMateria(1);
-//        docente.setIdDocente(1);
-//        
-//        FormatoLista formatoLista = new FormatoLista();
-//        formatoLista.setDocente(docente);
-//        formatoLista.setMateria(materia);
-//        formatoLista.setGrupo(grupo);
-//        formatoLista.setSemanas(10);
-//        formatoLista.setNomenclatura(1);
-//        
-//        ControllerFormatoLista ctrFormatoLista = new ControllerFormatoLista();
-//        System.out.println(ctrFormatoLista.getLastId());
+        ControllerFormatoLista ctrFormatoLista = new ControllerFormatoLista();
+        ctrFormatoLista.insert(formatoLista);
 //
 //        FormatoLista formatoLista = new FormatoLista();
 //        formatoLista.setIdFormatoLista(1);
@@ -82,7 +114,6 @@ public class Prueba {
 //        for (DiaClase dia : diasParaInsertar) {
 //            ctrDiaClase.insert(dia);
 //        }
-
 //        ControllerListaAsistencia ctrLista = new ControllerListaAsistencia();
 //        System.out.println(ctrLista.getVistaListaPorSemana(1));
 //        System.out.println(ctrLista.getAll());

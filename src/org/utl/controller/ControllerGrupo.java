@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.utl.bd.ConexionMySQL;
@@ -48,6 +49,51 @@ public class ControllerGrupo {
         connMySQL.close();
 
         return grupos;
+    }
+
+    public Grupo getLastId() throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String selectFormato = "SELECT MAX(idGrupo) AS idGrupo FROM grupo";
+
+        PreparedStatement pstmt = conn.prepareStatement(selectFormato);
+        ResultSet rs = pstmt.executeQuery();
+
+        Grupo grupo = new Grupo();
+
+        while (rs.next()) {
+            grupo.setIdGrupo(rs.getInt("idGrupo"));
+        }
+
+        return grupo;
+    }
+
+    public int insertAndGetID(Grupo grupo) throws SQLException {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String insertFormato = "INSERT INTO grupo(idGrupo, nombreGrupo) VALUES(?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(insertFormato, Statement.RETURN_GENERATED_KEYS);
+
+        // Establecer los valores de los parámetros
+        pstmt.setInt(1, grupo.getIdGrupo());
+        pstmt.setString(2, grupo.getNombreGrupo());
+
+        // Ejecutar la inserción
+        pstmt.executeUpdate();
+
+        // Obtener el ID generado
+        ResultSet generatedKeys = pstmt.getGeneratedKeys();
+        int idGrupo = -1; // Valor predeterminado si no se puede obtener el ID generado
+        if (generatedKeys.next()) {
+            idGrupo = generatedKeys.getInt(1); // Obtener el ID generado
+        }
+        // Cerrar recursos
+        generatedKeys.close();
+        pstmt.close();
+
+        return idGrupo; // Devolver el ID generado
     }
 
     private Grupo fill(ResultSet rs) throws Exception {

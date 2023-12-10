@@ -17,6 +17,9 @@ import org.utl.model.Docente;
 import org.utl.model.FormatoLista;
 import org.utl.model.ListaAsistencia;
 import org.utl.model.Materia;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.CallableStatement;
 
 /**
  *
@@ -27,11 +30,39 @@ public class ControllerDiaClase {
     public void insert(DiaClase diaClase) throws SQLException {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
+
         String insertFormato = "INSERT INTO diaClase(idDiaClase, dia, idFormatoLista) VALUES("
                 + diaClase.getIdDiaClase() + ", '" + diaClase.getDia() + "', "
                 + diaClase.getFormatoLista().getIdFormatoLista() + ")";
         PreparedStatement pstmt = conn.prepareStatement(insertFormato);
         pstmt.execute();
+    }
+
+    public int insertAndGetID(DiaClase diaClase) throws SQLException {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String insertFormato = "INSERT INTO diaClase(dia, idFormatoLista) VALUES(?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(insertFormato, Statement.RETURN_GENERATED_KEYS);
+
+        // Establecer los valores de los parámetros
+        pstmt.setString(1, diaClase.getDia());
+        pstmt.setInt(2, diaClase.getFormatoLista().getIdFormatoLista());
+
+        // Ejecutar la inserción
+        pstmt.executeUpdate();
+
+        // Obtener el ID generado
+        ResultSet generatedKeys = pstmt.getGeneratedKeys();
+        int idDiaClase = -1; // Valor predeterminado si no se puede obtener el ID generado
+        if (generatedKeys.next()) {
+            idDiaClase = generatedKeys.getInt(1); // Obtener el ID generado
+        }
+        // Cerrar recursos
+        generatedKeys.close();
+        pstmt.close();
+
+        return idDiaClase; // Devolver el ID generado
     }
 
     public List<DiaClase> getAll() throws SQLException, Exception {
@@ -98,5 +129,5 @@ public class ControllerDiaClase {
 
         return diaClase;
     }
-    
+
 }

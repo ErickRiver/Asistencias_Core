@@ -26,11 +26,13 @@ public class ControllerFormatoLista {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
         
-        String insertFormato = "INSERT INTO formatoLista(idMateria, idDocente, idGrupo,  "
-                + "semanas, nomenclatura) VALUES('" + formatoLista.getMateria().getIdMateria() + "', '"
-                + formatoLista.getDocente().getIdDocente() + "', '" + formatoLista.getGrupo().getIdGrupo()
-                + "', " + formatoLista.getSemanas()
-                + ", " + formatoLista.getNomenclatura() + ")";
+        String insertFormato = "INSERT INTO formatoLista(idMateria, idDocente, idGrupo,"
+                + "semanas, periodo, nomenclatura) VALUES('" + formatoLista.getMateria().getIdMateria() 
+                + "', '" + formatoLista.getDocente().getIdDocente() + "', " 
+                + formatoLista.getGrupo().getIdGrupo()
+                + ", " + formatoLista.getSemanas()
+                + ", '" + formatoLista.getPeriodo()
+                + "' , " + formatoLista.getNomenclatura() + ")";
         
         PreparedStatement pstmt = conn.prepareStatement(insertFormato);
         pstmt.execute();
@@ -100,6 +102,7 @@ public class ControllerFormatoLista {
         docente.setIdDocente(rs.getInt("idDocente"));
         formatoLista.setSemanas(rs.getInt("semanas"));
         formatoLista.setIdFormatoLista(rs.getInt("idFormatoLista"));
+        formatoLista.setPeriodo(rs.getString("periodo"));
         formatoLista.setNomenclatura(rs.getInt("nomenclatura"));
         formatoLista.setDocente(docente);
         formatoLista.setMateria(materia);

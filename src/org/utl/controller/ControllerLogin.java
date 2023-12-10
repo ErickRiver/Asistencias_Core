@@ -23,7 +23,7 @@ public class ControllerLogin {
 
     public Usuario login(Usuario usuario) throws Exception {
         String sql = "SELECT * FROM usuario WHERE username = '" + usuario.getUsername()
-                    + "' AND contrasenia = '" + usuario.getContrasenia() + "'";
+                + "' AND contrasenia = '" + usuario.getContrasenia() + "'";
 
         ConexionMySQL connMySQL = new ConexionMySQL();
 
@@ -35,7 +35,7 @@ public class ControllerLogin {
 
         //Ejecutamos la operacion:
         ResultSet rs = pstmt.executeQuery();
-        
+
         Usuario usu = new Usuario();
         while (rs.next()) {
             usu = fill(rs);
@@ -43,8 +43,26 @@ public class ControllerLogin {
 
         pstmt.close();
         connMySQL.close();
-        
+
         return usu;
+    }
+
+    public Usuario getLastId() throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String selectFormato = "SELECT MAX(idUsuario) AS idUsuario FROM usuario";
+
+        PreparedStatement pstmt = conn.prepareStatement(selectFormato);
+        ResultSet rs = pstmt.executeQuery();
+
+        Usuario usuario = new Usuario();
+
+        while (rs.next()) {
+            usuario.setIdUsuario(rs.getInt("idUsuario"));
+        }
+
+        return usuario;
     }
 
     private Usuario fill(ResultSet rs) throws Exception {
@@ -52,7 +70,8 @@ public class ControllerLogin {
         usu.setIdUsuario(rs.getInt("idUsuario"));
         usu.setUsername(rs.getString("username"));
         usu.setContrasenia(rs.getString("contrasenia"));
-        
+        usu.setRol(rs.getString("rol"));
+
         return usu;
     }
 }

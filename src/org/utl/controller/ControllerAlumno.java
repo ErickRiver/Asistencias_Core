@@ -21,21 +21,35 @@ import org.utl.model.Usuario;
  */
 public class ControllerAlumno {
 
+    public void insert(Alumno alumno) throws SQLException {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String insertFormato = "INSERT INTO alumno(nombre, apellido, fechaNacimiento, idGrupo, idUsuario) VALUES('"
+                + alumno.getNombre() + "', '"
+                + alumno.getApellido() + "', '"
+                + alumno.getFechaNacimiento() + "', "
+                + alumno.getGrupo().getIdGrupo() + ", "
+                + alumno.getUsuario().getIdUsuario() + ")";
+        PreparedStatement pstmt = conn.prepareStatement(insertFormato);
+        pstmt.execute();
+    }
+
     public List<Alumno> getAlumnoOgrupo(int idUsuario, int idGrupo) throws SQLException, Exception {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
-        
+
         String queryListaAlumnos = "SELECT * FROM alumno where idUsuario = " + idUsuario + " OR idGrupo = " + idGrupo;
-        
+
         PreparedStatement pstmt = conn.prepareStatement(queryListaAlumnos);
-        
+
         ResultSet rs = pstmt.executeQuery();
-            
+
         List<Alumno> listaAlumnos = new ArrayList<>();
         while (rs.next()) {
             listaAlumnos.add(fill(rs));
         }
-        
+
         return listaAlumnos;
     }
 
@@ -67,7 +81,7 @@ public class ControllerAlumno {
 
         return listaAlumnos;
     }
-    
+
     public List<Alumno> getAlumnosGrupo(int idGrupo) throws SQLException, Exception {
         //La consulta SQL a ejecutar:
         String sql = "SELECT * FROM alumno where idGrupo = " + idGrupo;
@@ -112,7 +126,7 @@ public class ControllerAlumno {
 
         usuario.setIdUsuario(rs.getInt("idUsuario"));
         alumno.setUsuario(usuario);
-        
+
         return alumno;
     }
 
