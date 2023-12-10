@@ -23,12 +23,13 @@ import org.utl.model.Horario;
 public class ControllerHorario {
 
     public void insert(Horario horario) throws SQLException {
-
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
-        String insertFormato = "INSERT INTO horario(idHorario, hora, idDiaClase) VALUES("
-                + horario.getIdHorario() + ", '" + horario.getHorario() + "', "
+        
+        String insertFormato = "INSERT INTO horario(horario, idDiaClase) VALUES('"
+                + horario.getHorario() + "', "
                 + horario.getDiaClase().getIdDiaClase() + ")";
+        
         PreparedStatement pstmt = conn.prepareStatement(insertFormato);
         pstmt.execute();
     }

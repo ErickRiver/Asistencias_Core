@@ -27,6 +27,18 @@ import org.utl.model.Usuario;
 public class Prueba {
 
     public static void main(String[] args) throws Exception {
+        ControllerDiaClase cda = new ControllerDiaClase();
+        System.out.println(cda.getLastId());
+//        Horario horario = new Horario();
+//        DiaClase diaClase = new DiaClase();
+//        diaClase.setIdDiaClase(1);
+//        
+//        horario.setHorario("9:00 - 10:00");
+//        horario.setDiaClase(diaClase);
+//        
+//        
+//        ControllerHorario ctrHorario = new ControllerHorario();
+//        ctrHorario.insert(horario);
 //        Grupo grupo = new Grupo();
 //        Materia materia = new Materia();
 //        Docente docente = new Docente();
@@ -42,30 +54,30 @@ public class Prueba {
 //        formatoLista.setSemanas(10);
 //        formatoLista.setNomenclatura(1);
 //        
-        ControllerFormatoLista ctrFormatoLista = new ControllerFormatoLista();
-        System.out.println(ctrFormatoLista.getLastId());
-
-        FormatoLista formatoLista = new FormatoLista();
-        formatoLista.setIdFormatoLista(1);
-
-        ControllerDiaClase ctrDiaClase = new ControllerDiaClase();
-
-        List<DiaClase> diasParaInsertar = new ArrayList<>();
-
-        DiaClase lunes = new DiaClase();
-        lunes.setDia("Lunes");
-        lunes.setFormatoLista(formatoLista);
-        diasParaInsertar.add(lunes);
-
-        DiaClase martes = new DiaClase();
-        martes.setDia("Martes");
-        martes.setFormatoLista(formatoLista);
-        diasParaInsertar.add(martes);
-
-        DiaClase miercoles = new DiaClase();
-        miercoles.setDia("Miércoles");
-        miercoles.setFormatoLista(formatoLista);
-        diasParaInsertar.add(miercoles);
+//        ControllerFormatoLista ctrFormatoLista = new ControllerFormatoLista();
+//        System.out.println(ctrFormatoLista.getLastId());
+//
+//        FormatoLista formatoLista = new FormatoLista();
+//        formatoLista.setIdFormatoLista(1);
+//
+//        ControllerDiaClase ctrDiaClase = new ControllerDiaClase();
+//
+//        List<DiaClase> diasParaInsertar = new ArrayList<>();
+//
+//        DiaClase lunes = new DiaClase();
+//        lunes.setDia("Lunes");
+//        lunes.setFormatoLista(formatoLista);
+//        diasParaInsertar.add(lunes);
+//
+//        DiaClase martes = new DiaClase();
+//        martes.setDia("Martes");
+//        martes.setFormatoLista(formatoLista);
+//        diasParaInsertar.add(martes);
+//
+//        DiaClase miercoles = new DiaClase();
+//        miercoles.setDia("Miércoles");
+//        miercoles.setFormatoLista(formatoLista);
+//        diasParaInsertar.add(miercoles);
 
 //        for (DiaClase dia : diasParaInsertar) {
 //            ctrDiaClase.insert(dia);

@@ -81,4 +81,22 @@ public class ControllerDiaClase {
         return diaClase;
     }
 
+    public DiaClase getLastId() throws SQLException, Exception {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String selectFormato = "SELECT MAX(idDiaClase) AS idDiaClase FROM diaclase";
+
+        PreparedStatement pstmt = conn.prepareStatement(selectFormato);
+        ResultSet rs = pstmt.executeQuery();
+
+        DiaClase diaClase = new DiaClase();
+
+        while (rs.next()) {
+            diaClase.setIdDiaClase(rs.getInt("idDiaClase"));
+        }
+
+        return diaClase;
+    }
+    
 }
