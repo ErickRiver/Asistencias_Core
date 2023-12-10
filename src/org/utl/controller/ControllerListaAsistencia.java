@@ -117,29 +117,42 @@ public class ControllerListaAsistencia {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
 
-        String queryListaAsistencia = "Select * from listaAsistencia";
+        String queryListaAsistencia = "Select * from VistaAsistenciaAlumnos2";
 
         PreparedStatement pstmt = conn.prepareStatement(queryListaAsistencia);
         ResultSet rs = pstmt.executeQuery();
 
         List<ListaAsistencia> asistenciaListas = new ArrayList<>();
-        Alumno alumno = new Alumno();
-        Materia materia = new Materia();
-        Docente docente = new Docente();
-
         while (rs.next()) {
             ListaAsistencia listaAsistencia = new ListaAsistencia();
+            Alumno alumno = new Alumno();
+            Materia materia = new Materia();
+            Docente docente = new Docente();
+            Grupo grupo = new Grupo();
+
+            alumno.setIdAlumno(rs.getInt("idAlumno"));
+            alumno.setNombre(rs.getString("NombreAlumno"));
+            alumno.setApellido(rs.getString("ApellidoAlumno"));
 
             materia.setIdMateria(rs.getInt("idMateria"));
+            materia.setNombre(rs.getString("NombreMateria"));
+
             docente.setIdDocente(rs.getInt("idDocente"));
-            alumno.setIdAlumno(rs.getInt("idAlumno"));
-            listaAsistencia.setSemana(rs.getInt("semana"));
+            docente.setNombre(rs.getString("NombreDocente"));
+            docente.setApellido(rs.getString("ApellidoDocente"));
+
+            grupo.setIdGrupo(rs.getInt("idGrupo"));
+            grupo.setNombreGrupo(rs.getString("NombreGrupo"));
+
             listaAsistencia.setIdListaAsistencia(rs.getInt("idListaAsistencia"));
-            listaAsistencia.setDia(rs.getString("dia"));
-            listaAsistencia.setHora(rs.getString("hora"));
+            listaAsistencia.setSemana(rs.getInt("Semana"));
+            listaAsistencia.setDia(rs.getString("FechaAsistencia"));
+            listaAsistencia.setHora(rs.getString("HoraAsistencia"));
             listaAsistencia.setDocente(docente);
             listaAsistencia.setMateria(materia);
             listaAsistencia.setAlumno(alumno);
+            listaAsistencia.getAlumno().setGrupo(grupo);
+
             String asistenciaString = rs.getString("asistencia");
             char asistencia = ' ';
             if (asistenciaString != null && !asistenciaString.isEmpty()) {
@@ -249,7 +262,7 @@ public class ControllerListaAsistencia {
         }
         return asistenciaListas;
     }
-    
+
     public List<ListaAsistencia> getVistaListaAlumno(int idAlumno) throws SQLException {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();

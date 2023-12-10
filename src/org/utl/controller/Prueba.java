@@ -86,8 +86,8 @@ public class Prueba {
         formatoLista.setPeriodo("enero-mayo");
         formatoLista.setNomenclatura(1);
 //        
-        ControllerFormatoLista ctrFormatoLista = new ControllerFormatoLista();
-        ctrFormatoLista.insert(formatoLista);
+        ControllerListaAsistencia ctrFormatoLista = new ControllerListaAsistencia();
+        System.out.println(ctrFormatoLista.getAll());
 //
 //        FormatoLista formatoLista = new FormatoLista();
 //        formatoLista.setIdFormatoLista(1);
