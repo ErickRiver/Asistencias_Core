@@ -87,7 +87,10 @@ public class Prueba {
         formatoLista.setNomenclatura(1);
 //        
         ControllerListaAsistencia ctrFormatoLista = new ControllerListaAsistencia();
-        System.out.println(ctrFormatoLista.getAll());
+        
+        ControllerDiaInhabil ctrDia = new ControllerDiaInhabil();
+        ctrDia.insert(4);
+//        System.out.println(ctrFormatoLista.getAll());
 //
 //        FormatoLista formatoLista = new FormatoLista();
 //        formatoLista.setIdFormatoLista(1);
