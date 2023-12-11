@@ -28,12 +28,31 @@ public class ControllerListaAsistencia {
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
         String insertLista = "INSERT INTO listaAsistencia(idMateria, idDocente, idAlumno, "
-                + "dia, hora, semana, asistencia) VALUES(" + listaAsistencia.getMateria().getIdMateria() + ", "
-                + listaAsistencia.getDocente().getIdDocente() + ", " + listaAsistencia.getAlumno().getIdAlumno()
-                + ", '" + listaAsistencia.getDia() + "', '" + listaAsistencia.getHora() + "', " + listaAsistencia.getSemana()
+                + "dia, hora, semana, asistencia) VALUES(" 
+                + listaAsistencia.getMateria().getIdMateria() + ", "
+                + listaAsistencia.getDocente().getIdDocente() + ", " 
+                + listaAsistencia.getAlumno().getIdAlumno()
+                + ", '" + listaAsistencia.getDia() + "'" 
+                + ", '" + listaAsistencia.getHora() + "'"
+                + ", " + listaAsistencia.getSemana()
                 + ", '" + listaAsistencia.getAsistencia() + "')";
         PreparedStatement pstmt = conn.prepareStatement(insertLista);
         pstmt.execute();
+    }
+
+    public void update(int idListaAsistencia, char asistencia) throws SQLException {
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+
+        String updateAsistencia = "UPDATE listaAsistencia SET asistencia = ? WHERE idListaAsistencia = ?";
+
+        PreparedStatement pstmt = conn.prepareStatement(updateAsistencia);
+        pstmt.setString(1, String.valueOf(asistencia));
+        pstmt.setInt(2, idListaAsistencia);
+
+        pstmt.executeUpdate();
+
+        conn.close();
     }
 
     public List<ListaAsistencia> getAllFiltro(int idAlumno, int idMateria, int idDocente) throws SQLException {

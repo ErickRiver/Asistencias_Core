@@ -27,6 +27,31 @@ import org.utl.model.Usuario;
 public class Prueba {
 
     public static void main(String[] args) throws Exception {
+        ListaAsistencia listaAsistencia = new ListaAsistencia();
+        Alumno alumno = new Alumno();
+        alumno.setIdAlumno(2);
+        
+        Materia materia = new Materia();
+        materia.setIdMateria(2);
+        
+        Docente docente = new Docente();
+        docente.setIdDocente(2);
+            
+        listaAsistencia.setAlumno(alumno);
+        listaAsistencia.setMateria(materia);
+        listaAsistencia.setDocente(docente);
+        
+        listaAsistencia.setDia("2023-10-10");
+        listaAsistencia.setHora("10:00");
+        listaAsistencia.setSemana(1);
+        listaAsistencia.setAsistencia('A');
+        
+        ControllerListaAsistencia as = new ControllerListaAsistencia();
+        as.insert(listaAsistencia);
+        
+        ControllerListaAsistencia ctrListaAsistencia = new ControllerListaAsistencia();
+//        ctrListaAsistencia.update(1, 'R');
+        
         Usuario usuario = new Usuario();
         usuario.setUsername("usuario23");
         usuario.setContrasenia("1234");
@@ -70,26 +95,8 @@ public class Prueba {
 //        ControllerHorario ctrHorario = new ControllerHorario();
 //        ctrHorario.insert(horario);
 
-        Grupo grupo = new Grupo();
-        Materia materia = new Materia();
-        Docente docente = new Docente();
-
-        grupo.setIdGrupo(1);
-        materia.setIdMateria(1);
-        docente.setIdDocente(1);
-
-        FormatoLista formatoLista = new FormatoLista();
-        formatoLista.setDocente(docente);
-        formatoLista.setMateria(materia);
-        formatoLista.setGrupo(grupo);
-        formatoLista.setSemanas(10);
-        formatoLista.setPeriodo("enero-mayo");
-        formatoLista.setNomenclatura(1);
-//        
-        ControllerListaAsistencia ctrFormatoLista = new ControllerListaAsistencia();
-        
-        ControllerDiaInhabil ctrDia = new ControllerDiaInhabil();
-        ctrDia.insert(4);
+//        ControllerDiaInhabil ctrDia = new ControllerDiaInhabil();
+//        ctrDia.insert(4);
 //        System.out.println(ctrFormatoLista.getAll());
 //
 //        FormatoLista formatoLista = new FormatoLista();
